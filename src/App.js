@@ -56,7 +56,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "fdsf";
+  const query = "1917";
 
   //this effect executed after render!
   useEffect(function () {
@@ -69,7 +69,6 @@ export default function App() {
 
         if (!res.ok)
           throw new Error("Something went wrong with fetching movies");
-
         const data = await res.json();
 
         if (data.Response === "False") throw new Error("Movie not Found");
@@ -98,7 +97,7 @@ export default function App() {
         <Box>
           {/* {isLoading ? <Loader /> : <MoviesList movies={movies} />}</Box> */}
           {isLoading && <Loader />}
-          {isLoading && !error && <MoviesList movies={movies} />}
+          {!isLoading && !error && <MoviesList movies={movies} />}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
