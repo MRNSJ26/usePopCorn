@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const tempMovieData = [
   {
@@ -49,29 +49,10 @@ const tempWatchedData = [
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
-const KEY = `69d83edd`;
 
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const query = "interstellar";
-
-  //this effect executed after render!
-  useEffect(function () {
-    async function fetchMovies() {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
-    }
-    fetchMovies();
-  }, []);
-  //empty (dependecy arraay) array, this means this effect will be executed only when as the componenet first mount
-  //register means that we don't want the function to be executed while render, but after render
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -82,7 +63,9 @@ export default function App() {
       </NavBar>
 
       <Main>
-        <Box>{isLoading ? <Loader /> : <MoviesList movies={movies} />}</Box>
+        <Box>
+          <MoviesList movies={movies} />
+        </Box>
 
         <Box>
           <WatchedSummary watched={watched} />
@@ -91,10 +74,6 @@ export default function App() {
       </Main>
     </>
   );
-}
-
-function Loader() {
-  return <p className="loader">Loading...</p>;
 }
 
 function NavBar({ children }) {
